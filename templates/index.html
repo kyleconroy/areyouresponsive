@@ -4,34 +4,53 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>
       $(document).ready(function() {
+
+        var Responsive = {
+          update: function(url) {
+            var link = null;
+            if (url.substring(7,0) !== "http://" && url.substring(8,0) !== "https://") {
+              link = "http://" + url;
+            }
+            $("#views div").each(function() {
+              $(this).find("object").remove();
+              var obj = $('<object>').attr("data", link).attr("type", "text/html");
+              $(this).append(obj);
+            });
+            return url;
+          }
+        }
+
         $('#url').submit(function(e) { 
           e.preventDefault();      
 
-          // Update all the iframes
+          // Update all the objects
           var url = $(this).find("input").val();
-          var link = null;
-          if (url.substring(7,0) !== "http://" && url.substring(8,0) !== "https://") {
-            link = "http://" + url;
-          }
-          $("iframe").attr("src", link || url);
+          url = Responsive.update(url);
 
           if (window.history && history.pushState) {
-            console.log("Hey");
-            history.pushState(null, null, encodeURIComponent(url));
+            history.pushState({"url":url}, "Page Tile", encodeURIComponent(url));
           }
 
           // return false to prevent normal browser submit and page navigation 
           return false; 
         });
+
+        window.onpopstate = function(event) {  
+          if (event.state) {
+            $("input").val(event.state.url);
+            Responsive.update(event.state.url);
+          }
+        }; 
       });
     </script>
+    <link href='http://fonts.googleapis.com/css?family=Bitter&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <style>
       /* http://meyerweb.com/eric/tools/css/reset/ 
       v2.0 | 20110126
       License: none (public domain)
       */
 
-      html, body, div, span, applet, object, iframe,
+      html, body, div, span, applet, object, object,
       h1, h2, h3, h4, h5, h6, p, blockquote, pre,
       a, abbr, acronym, address, big, cite, code,
       del, dfn, em, img, ins, kbd, q, s, samp,
@@ -76,13 +95,30 @@
       }
       body {
         background: #1F2F3A;
+        font-family: 'Bitter', serif;
         /*background: #9FB982;*/
+      }
+      header form {
+        padding: 10px 0px;
+      }
+      header input:focus{
+        outline: none;
+      }
+      header input {
+        color: #98092B;
+        background: none;
+        border: 0;
+        border-bottom: 1px dotted #1F2F3A;
+        text-align: center;
+        font-size: 1em;
+        width: 100%;
+        font-family: 'Bitter', serif;
       }
       header {
         position: fixed;
+        font-size: 1.2em;
         left: 0;
         right: 0;
-        height: 40px;
         border-bottom: 5px #c9c392 solid;
         background: #E0DAA3;
         text-align: center;
@@ -93,21 +129,22 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 30px;
+        padding: 7px;
+        font-size: .9em;
+        text-align: right;
         border-top: 5px #8ea674 solid;
         background: #9FB982;
-        text-align: center;
       }
 
       section {
         position: absolute;
-        top: 60px;
+        top: 90px;
         bottom: 50px;
         margin: 0 auto;
         width: 1275px;
       }
 
-      iframe {
+      object {
         -webkit-transform: scale(.30);
         -webkit-transform-origin: top left; 
         height: 333.3333333%;
@@ -126,27 +163,27 @@
       #smartphone {
         width: 96px;
       }
-      #smartphone > iframe{
+      #smartphone > object{
         width: 320px;
       }
       #tablet {
         width: 230.4px;
       }
-      #tablet > iframe{
+      #tablet > object{
         width: 768px;
       }
 
       #netbook {
         width: 315px;
       }
-      #netbook > iframe{
+      #netbook > object{
         width: 1050px; 
       }
 
       #desktop {
         width: 450px;
       }
-      #desktop > iframe{
+      #desktop > object{
         width: 1500px;
       }
     </style>      
@@ -154,27 +191,26 @@
   <body> 
     <header>
       <form id="url">
-        <span>Is</span>
-        <input type="text" name="url" value="{{text}}" placeholder="www.example.com">
-        <span>responsive?</span>
+        <h1>Are you responsive?</h1>
+        <input tabindex=0 type="text" name="url" value="{{text}}" placeholder="www.example.com">
       </form>
     </header>
     <section id="views">
       <div id="smartphone">
-        <iframe src="{{source}}" border="0"></iframe>
+        <object data="{{source}}" type="text/html"></object>
       </div>
       <div id="tablet">
-        <iframe src="{{source}}" border="0"></iframe>
+        <object data="{{source}}" type="text/html"></object>
       </div>
       <div id="netbook">
-        <iframe src="{{source}}" border="0"></iframe>
+        <object data="{{source}}" type="text/html"></object>
       </div>
       <div id="desktop">
-        <iframe src="{{source}}" border="0"></iframe>
+        <object data="{{source}}" type="text/html"></object>
       </div>
     </section>
     <footer>
-      &rArr; Scroll &rArr;
+      Created by Kyle Conroy (<a href="www.twitter.com/derferman">@derferman</a>)
     </footer>
   </body>
 </html>
