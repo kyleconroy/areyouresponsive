@@ -12,8 +12,8 @@
               link = "http://" + url;
             }
             $("#views div").each(function() {
-              $(this).find("object").remove();
-              var obj = $('<object>').attr("data", link).attr("type", "text/html");
+              $(this).find("iframe").remove();
+              var obj = $('<iframe>').attr("src", link);
               $(this).append(obj);
             });
             return url;
@@ -23,7 +23,7 @@
         $('#url').submit(function(e) { 
           e.preventDefault();      
 
-          // Update all the objects
+          // Update all the iframes
           var url = $(this).find("input").val();
           url = Responsive.update(url);
 
@@ -50,7 +50,7 @@
       License: none (public domain)
       */
 
-      html, body, div, span, applet, object, object,
+      html, body, div, span, applet, iframe, iframe,
       h1, h2, h3, h4, h5, h6, p, blockquote, pre,
       a, abbr, acronym, address, big, cite, code,
       del, dfn, em, img, ins, kbd, q, s, samp,
@@ -144,7 +144,7 @@
         width: 1275px;
       }
 
-      object {
+      iframe {
         -webkit-transform: scale(.30);
         -webkit-transform-origin: top left; 
         height: 333.3333333%;
@@ -163,27 +163,27 @@
       #smartphone {
         width: 96px;
       }
-      #smartphone > object{
+      #smartphone > iframe{
         width: 320px;
       }
       #tablet {
         width: 230.4px;
       }
-      #tablet > object{
+      #tablet > iframe{
         width: 768px;
       }
 
       #netbook {
         width: 315px;
       }
-      #netbook > object{
+      #netbook > iframe{
         width: 1050px; 
       }
 
       #desktop {
         width: 450px;
       }
-      #desktop > object{
+      #desktop > iframe{
         width: 1500px;
       }
     </style>      
@@ -197,16 +197,16 @@
     </header>
     <section id="views">
       <div id="smartphone">
-        <object data="{{source}}" type="text/html"></object>
+        <iframe src="{{source}}"></iframe>
       </div>
       <div id="tablet">
-        <object data="{{source}}" type="text/html"></object>
+        <iframe src="{{source}}"></iframe>
       </div>
       <div id="netbook">
-        <object data="{{source}}" type="text/html"></object>
+        <iframe src="{{source}}"></iframe>
       </div>
       <div id="desktop">
-        <object data="{{source}}" type="text/html"></object>
+        <iframe src="{{source}}"></iframe>
       </div>
     </section>
     <footer>
