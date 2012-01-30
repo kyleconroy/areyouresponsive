@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Is {{text}} responsive? - areyouresponsive.com</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>
       $(document).ready(function() {
@@ -43,6 +44,7 @@
         }; 
       });
     </script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href='http://fonts.googleapis.com/css?family=Bitter&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <style>
       /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -192,7 +194,7 @@
     <header>
       <form id="url">
         <h1>Are you responsive?</h1>
-        <input tabindex=0 type="text" name="url" value="{{text}}" placeholder="http://responsivewebdesign.com/robot/">
+        <input tabindex=0 type="text" name="url" value="{{text}}"> 
       </form>
     </header>
     <section id="views">
