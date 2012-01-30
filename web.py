@@ -13,7 +13,8 @@ def index_with_url(in_url):
 
 @app.route("/")
 def index():
-    return render_template("index.html", source="http://www.tired.com", text="")
+    return render_template("index.html",
+                source="http://responsivewebdesign.com/robot/", text="")
 
 
 if __name__ == '__main__':
