@@ -8,10 +8,15 @@
 
         var Responsive = {
           update: function(url) {
-            var link = null;
+            var link = url;
             if (url.substring(7,0) !== "http://" && url.substring(8,0) !== "https://") {
               link = "http://" + url;
             }
+
+            if (link.indexOf("areyouresponsive.com") != -1) {
+              link = "http://en.wikipedia.org/wiki/Recursion";
+            }
+
             $("#views div").each(function() {
               $(this).find("iframe").remove();
               var obj = $('<iframe>').attr("src", link);
